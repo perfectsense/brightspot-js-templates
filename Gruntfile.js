@@ -18,7 +18,6 @@ module.exports = function(grunt) {
 					baseUrl: 'src/js',
 					include: ['bsp-templates'],
 					paths: {
-						'jquery': 'empty:',
 						'handlebars': '../../bower_components/handlebars/handlebars'
 					},
 					optimize: 'none',

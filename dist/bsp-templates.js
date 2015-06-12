@@ -4102,13 +4102,12 @@ return /******/ (function(modules) { // webpackBootstrap
  * Handlebars template management, some convenience functions,
  * maybe some pre-baked partials later
  */
-define('bsp-templates',['require','jquery','handlebars'],function(require) {
-	var $ = require('jquery');
+define('bsp-templates',['require','handlebars'],function(require) {
 	var Handlebars = require('handlebars');
 
 	/** note: single instance per application */
 	return Object.create({
-		 
+
 		templates: {},
 		
 		addTemplate: function(name, template) {

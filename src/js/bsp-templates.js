@@ -5,12 +5,11 @@
  * maybe some pre-baked partials later
  */
 define(function(require) {
-	var $ = require('jquery');
 	var Handlebars = require('handlebars');
 
 	/** note: single instance per application */
 	return Object.create({
-		 
+
 		templates: {},
 		
 		addTemplate: function(name, template) {

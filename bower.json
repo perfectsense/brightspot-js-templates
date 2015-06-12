@@ -1,0 +1,32 @@
+{
+  "authors": [
+    {
+      "homepage": "http://www.perfectsensedigital.com/",
+      "name": "Perfect Sense Digital"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.0",
+    "bsp-utils": ">=1.0.0"
+  },
+  "devDependencies": {
+    "requirejs": "jrburke/requirejs#~2.1.16"
+  },
+  "homepage": "https://github.com/perfectsense/brightspot-js-carousel",
+  "ignore": [
+    "demo",
+    "Gruntfile.js",
+    "package.json",
+    ".gitignore"
+  ],
+  "keywords": [
+    "brightspot",
+    "jquery"
+  ],
+  "license": "MIT",
+  "main": [
+    "dist/bsp-templates.js"
+  ],
+  "name": "bsp-templates",
+  "version": "0.1.0"
+}

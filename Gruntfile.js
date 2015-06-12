@@ -4,12 +4,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	grunt.registerTask('default', ['compile']);
 	grunt.registerTask('test', ['jshint:all']);
 	
 	grunt.registerTask('compile', ['compilejs']);
-	grunt.registerTask('compilejs', ['requirejs:dist','uglify:dist']);
+	grunt.registerTask('compilejs', ['requirejs:dist','copy:dist','uglify:dist']);
 
 	grunt.initConfig({
 		requirejs: {
@@ -26,10 +27,19 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		copy: {
+			dist: {
+				src: ['src/js/bsp-template-plugin.js'],
+				dest: 'dist/',
+				expand: true,
+				flatten: true
+			}
+		},
 		uglify: {
 			dist: {
 				files: {
 					'dist/bsp-templates.min.js' : ['dist/bsp-templates.js'],
+					'dist/bsp-template-plugin.min.js' : ['dist/bsp-template-plugin.js']
 				}
 			}
 		},

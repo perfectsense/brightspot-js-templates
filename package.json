@@ -1,0 +1,25 @@
+{
+  "author": {
+    "url": "http://www.perfectsensedigital.com/",
+    "name": "Perfect Sense Digital"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "homepage": "https://github.com/perfectsense/brightspot-js-templates",
+  "keywords": [
+    "brightspot",
+    "jquery"
+  ],
+  "license": "MIT",
+  "name": "bsp-templates",
+  "version": "0.0.1"
+}

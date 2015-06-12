@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<script src="../bower_components/requirejs/require.js" data-main="demo"></script>
+	</head>
+	<body>
+		<script type="text/html" id="testPartial">
+			testPartialValue
+		</script>
+		<script type="text/html" id="testTemplate">
+			<p>testVar: {{testVar}}</p>
+			<p>testPartial: {{> testPartial }}</p>
+		</script>
+		<div id="testOutput"></div>
+	</body>
+</html>

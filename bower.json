@@ -10,10 +10,7 @@
     "handlebars": "~3.0.3",
     "bsp-utils": ">=1.0.0"
   },
-  "devDependencies": {
-    "requirejs": "jrburke/requirejs#~2.1.16"
-  },
-  "homepage": "https://github.com/perfectsense/brightspot-js-carousel",
+  "homepage": "https://github.com/perfectsense/brightspot-js-templates",
   "ignore": [
     "demo",
     "Gruntfile.js",
@@ -26,7 +23,7 @@
   ],
   "license": "MIT",
   "main": [
-    "dist/bsp-templates.js"
+    "dist/bsp-template-plugin.js"
   ],
   "name": "bsp-templates",
   "version": "0.0.3"

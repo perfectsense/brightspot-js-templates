@@ -1,6 +1,5 @@
 module.exports = function(grunt) {
 	
-	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -10,23 +9,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('test', ['jshint:all']);
 	
 	grunt.registerTask('compile', ['compilejs']);
-	grunt.registerTask('compilejs', ['requirejs:dist','copy:dist','uglify:dist']);
+	grunt.registerTask('compilejs', ['copy:dist','uglify:dist']);
 
 	grunt.initConfig({
-		requirejs: {
-			dist: {
-				options: {
-					baseUrl: 'src/js',
-					include: ['bsp-templates'],
-					paths: {
-						'handlebars': '../../bower_components/handlebars/handlebars'
-					},
-					optimize: 'none',
-					out: 'dist/bsp-templates.js',
-					wrap: true
-				}
-			}
-		},
 		copy: {
 			dist: {
 				src: ['src/js/bsp-template-plugin.js'],
@@ -38,7 +23,6 @@ module.exports = function(grunt) {
 		uglify: {
 			dist: {
 				files: {
-					'dist/bsp-templates.min.js' : ['dist/bsp-templates.js'],
 					'dist/bsp-template-plugin.min.js' : ['dist/bsp-template-plugin.js']
 				}
 			}

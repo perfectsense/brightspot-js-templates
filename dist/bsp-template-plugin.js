@@ -1,6 +1,8 @@
 /*
- * Template test js
+ * Plugin to load bsp-templates
  *
+ * bsp-templates is generated with 
+ * https://github.com/perfectsense/brightspot-js-grunt/
  */
 (function(globals, factory) {
 
@@ -14,28 +16,18 @@
 
     var module = {
         init: function($el, options) {
-            var self = this;
-            var templateExists;
-            self.options = options;
-            self.$el = $el;
-            if (typeof options.template !== 'string') {
+            if (typeof options.template !== 'string' || typeof bsp_templates[options.template] !== 'function') {
                 return;
             }
-            templateExists = bsp_templates.templateExists(options.template);
             if (typeof options.data === 'object') {
-                $.when( templateExists )
-                    .done(function() {
-                        self.applyTemplate(options.data); 
-                    });
+                $el.html( bsp_templates[options.template](options.data) );
             } else if (typeof options.dataUrl === 'string') {
-                $.when( $.get(options.dataUrl), templateExists )
-                    .then(function(data) {
-                        self.applyTemplate(data); 
-                    });
+                $.get(options.dataUrl).then(function(data) {
+                    $el.html( bsp_templates[options.template](data));
+                });
+            } else {
+                $el.html( bsp_templates[options.template]({}) );
             }
-        },
-        applyTemplate: function(data) {
-            this.$el.html( bsp_templates.applyTemplate( this.options.template, data) );
         }
     };
 

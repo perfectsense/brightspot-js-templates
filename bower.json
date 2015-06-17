@@ -26,5 +26,5 @@
     "dist/bsp-template-plugin.js"
   ],
   "name": "bsp-templates",
-  "version": "0.0.3"
+  "version": "0.0.4"
 }

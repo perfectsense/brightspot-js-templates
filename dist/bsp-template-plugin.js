@@ -2,7 +2,7 @@
  * Plugin to load bsp-templates
  */
 import $ from 'jquery';
-import bsp_utils from 'bsp_utils';
+import bsp_utils from 'bsp-utils';
 import Handlebars from './handlebars';
 
 export default bsp_utils.plugin(globals, 'bsp', 'template', {

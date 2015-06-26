@@ -23,7 +23,8 @@
   ],
   "license": "MIT",
   "main": [
-    "dist/bsp-template-plugin.js"
+    "dist/bsp-template-plugin.js",
+    "dist/handlebars.js"
   ],
   "name": "bsp-templates",
   "version": "0.0.5"

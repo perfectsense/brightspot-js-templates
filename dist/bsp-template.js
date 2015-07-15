@@ -72,10 +72,8 @@ export default {
             }
         }
         if (matches.size) {
-            console.log('load partials');
             this.loadPartials(matches);
         } else {
-            console.log('check next partial');
             this.checkNextPartial();
         }
     },
@@ -99,24 +97,6 @@ export default {
                 });
             }
         });
-        /*
-        $.each(partials, (key, value) => {
-            if (!promises[value] && !self.partials[value]) {
-                promises[value] = $.get( self.templateUrl(value) );
-                promises[value].then((template) => {
-                    self.partials[value] = {
-                        checked: false,
-                        registered: false,
-                        content: template
-                    };
-                    promisesResolved++;
-                    if (promisesResolved === partials.length) {
-                        self.checkNextPartial();
-                    }
-                });
-            }
-        });
-        */
     },
     checkNextPartial() {
         var partialFound = false;

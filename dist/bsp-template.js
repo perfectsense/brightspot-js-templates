@@ -63,17 +63,19 @@ export default {
         });
     },
     findPartials(template = '') {
-        var matches = [];
+        var matches = new Set();
         var match = null;
         var self = this;
         while(match = this.options.partialsRegexp.exec(template)) { // jshint ignore:line
             if (!self.partials[match[1]]) {
-                matches.push(match[1]);
+                matches.add(match[1]);
             }
         }
-        if (matches.length) {
+        if (matches.size) {
+            console.log('load partials');
             this.loadPartials(matches);
         } else {
+            console.log('check next partial');
             this.checkNextPartial();
         }
     },
@@ -81,6 +83,23 @@ export default {
         var promises = {};
         var self = this;
         var promisesResolved = 0;
+        partials.forEach((value) => {
+            if (!promises[value] && !self.partials[value]) {
+                promises[value] = $.get( self.templateUrl(value) );
+                promises[value].then((template) => {
+                    self.partials[value] = {
+                        checked: false,
+                        registered: false,
+                        content: template
+                    };
+                    promisesResolved++;
+                    if (promisesResolved === partials.size) {
+                        self.checkNextPartial();
+                    }
+                });
+            }
+        });
+        /*
         $.each(partials, (key, value) => {
             if (!promises[value] && !self.partials[value]) {
                 promises[value] = $.get( self.templateUrl(value) );
@@ -97,6 +116,7 @@ export default {
                 });
             }
         });
+        */
     },
     checkNextPartial() {
         var partialFound = false;
@@ -129,7 +149,10 @@ export default {
     render() {
         var self = this;
         this.fetchingData.then((data) => {
-            self.$el.html( self.template( data ) );
+            setTimeout(() => {
+                self.$el.html( self.template( data ) );
+            }, 2000);
+            
         });
     },
     templateUrl(templateName = '') {

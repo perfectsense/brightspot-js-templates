@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'bower_components/handlebars/handlebars.js',
+					'src/js/bsp-template.js',
 					'src/js/bsp-template-plugin.js'
 				],
 				dest: 'dist/',

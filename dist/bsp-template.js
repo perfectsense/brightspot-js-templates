@@ -37,11 +37,11 @@ export default {
             });
         } else if (!this.fetchingData) {
             if (this.options.data) {
-                resolveData = this.options.data;
+                fakeResolveData = this.options.data;
             }
             fakeDataGet = new $.Deferred();
-            fakeDataGet.resolve(resolveData);
-            this.fetchingData = fakeData.promise();
+            fakeDataGet.resolve(fakeResolveData);
+            this.fetchingData = fakeDataGet.promise();
         }
     },
     fetchTemplate(template = this.options.template) {

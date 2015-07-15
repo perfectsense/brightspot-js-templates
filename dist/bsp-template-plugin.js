@@ -8,7 +8,7 @@ import bsp_template from 'bsp-template';
 export default bsp_utils.plugin(false, 'bsp', 'template', {
     '_each': function(item) {
         var options = this.option(item);
-        var moduleInstance = Object.create(thePlugin);
+        var moduleInstance = Object.create(bsp_template);
         moduleInstance.init($(item), options).fetch().then(() => {
             moduleInstance.render();
         });

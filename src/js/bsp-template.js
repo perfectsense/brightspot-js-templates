@@ -129,10 +129,7 @@ export default {
     render() {
         var self = this;
         this.fetchingData.then((data) => {
-            setTimeout(() => {
-                self.$el.html( self.template( data ) );
-            }, 2000);
-            
+            self.$el.html( self.template( data ) );
         });
     },
     templateUrl(templateName = '') {

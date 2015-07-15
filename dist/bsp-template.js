@@ -4,7 +4,7 @@ import Handlebars from 'handlebars';
 export default {
     defaults: {
         dataUrl: false,
-        partialsRegexp: /\{\{>\s+([^\s]+)\s+.*?\}\}/g,
+        partialsRegexp: /\{\{>\s+([^\s]+)[\S\s]+?\}\}/g,
         templatePath: '/render/',
         templateExtension: '.hbs'
     },

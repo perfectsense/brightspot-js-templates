@@ -4,7 +4,7 @@ This plugin is used to seamlessly transform JSON test data using Handlebar templ
 
 ## Usage
 
-1) Create your JSON test object. You can specify the handlebar template to use for transformation via the "_template" key, and also specify parts of your JSON objects to be pulled in via AJAX using the "_dataUrl" key. Example: 
+1) Create your JSON test object. You can specify the handlebar template to use for transformation via the `_template` key, and also specify parts of your JSON objects to be pulled in via AJAX using the `_dataUrl` key. Example: 
 
 	{
 		"_template" : "components/bsp-gallery-module",
@@ -70,8 +70,8 @@ This plugin is used to seamlessly transform JSON test data using Handlebar templ
 
 4) What the plugin will do:
 
-	* AJAX in your JSON, crawl through it, find the template it's supposed to use and AJAX that in
-	* Go through your JSON looking for "_dataUrl" keys and AJAX in all those JSON objects to create a full JSON object
-	* Recursively crawl through your JSON looking for more "_template" keys and AJAX in those templates
-	* Register all the templates and their partials with Handlebars
-	* Compile and output your resulting HTML in the div where you specified the plugin
+* AJAX in your JSON, crawl through it, find the template it's supposed to use and AJAX that in
+* Go through your JSON looking for "_dataUrl" keys and AJAX in all those JSON objects to create a full JSON object
+* Recursively crawl through your JSON looking for more "_template" keys and AJAX in those templates
+* Register all the templates and their partials with Handlebars
+* Compile and output your resulting HTML in the div where you specified the plugin

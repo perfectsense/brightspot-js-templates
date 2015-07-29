@@ -68,4 +68,9 @@ This plugin is used to seamlessly transform JSON test data using Handlebar templ
 		<div data-bsp-template data-bsp-template-options='{ "dataUrl": "/bsp-gallery-module/5-slides.json" }'></div>
 	</div>
 
-4) What the plugin will do, is AJAX in your JSON, crawl through it, find the template it's supposed to use and AJAX that in. Then go through your JSON looking for "_dataUrl" keys and AJAX in all those JSON objects (and AJAX in all their needed templates as well) and with that create a full JSON object ready to be translated by the original _template. It will register all the templates and partials with Handlebars, compile and output your resulting HTML in the div where you specified the plugin
+4) What the plugin will do:
+	- AJAX in your JSON, crawl through it, find the template it's supposed to use and AJAX that in
+	- Go through your JSON looking for "_dataUrl" keys and AJAX in all those JSON objects to create a full JSON object
+	- Recursively crawl through your JSON looking for more "_template" keys and AJAX in those templates
+	- Register all the templates and their partials with Handlebars
+	- Compile and output your resulting HTML in the div where you specified the plugin

@@ -262,7 +262,7 @@ export default {
                         self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
 
                         if (dataToGet.size) {
-                            //recursiveGet();
+                            recursiveGet();
                         }
                         else {
                             fullDataReady.resolve();

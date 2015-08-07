@@ -381,7 +381,7 @@ export default {
     _compileTemplate() {
         var self = this;
 
-        var mainTemplateName = self.data._template;
+        var mainTemplateName = self.data[self.options.templateKey];
         var mainTemplate = self.partials[mainTemplateName].content;
 
         self.template = Handlebars.compile(mainTemplate);

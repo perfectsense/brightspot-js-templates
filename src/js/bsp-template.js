@@ -370,7 +370,11 @@ export default {
             }
         });
 
-        this._compileTemplate();
+        // once we are done registering the partials, let's create the render helper
+        self._createRenderHelper();
+
+        // and once that is done, compile the template
+        self._compileTemplate();
     },
 
     // helper to compile the template. Once we are done, we tell the parent that Handlebars is ready to roll
@@ -383,6 +387,38 @@ export default {
         self.template = Handlebars.compile(mainTemplate);
 
         self.handlebarsReady.resolve();
+    },
+
+    // this creates a render helper so that we can use the {{render object}} syntax vs the normal partial syntax {{> partial object}}
+    _createRenderHelper() {
+        var self = this;
+
+        Handlebars.registerHelper('render', function(object, context) {
+
+            // the hash contains the extra data that we can pass onto the renderer
+            // usually we just add an extra class, but this allows us to add any sort of key/value pair for use
+            // in the template
+            object = $.extend(object, context.hash);
+
+            // we grab the template name out of the object 
+            var name = object[self.options.templateKey];
+
+            // we need a name to continue
+            if (typeof name !== 'string') {
+                return '';
+            }
+
+            // grab the partial template itself
+            var partial = self.partials[name].content;            
+
+            // and compile it into a template
+            var fn = Handlebars.compile(partial);
+
+            // apply the template against the object we passed in (including extra hash)
+            return new Handlebars.SafeString(fn(object));
+               
+        });
+
     },
 
     // helper function to render the Handlebar template with our full set of data

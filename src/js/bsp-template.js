@@ -26,6 +26,9 @@ export default {
         // checked or not, and their content
         self.partials = {};
 
+        // used to keep track of partial promises when we load. This way we can keep track of partials we requested globally
+        self.partialPromises = {};
+
         // we start off by going through our initial JSON object, and crawling through of it to gather any external data specified in it
         var fullDataReady = self._createFullJSON();
 
@@ -169,16 +172,16 @@ export default {
     // once all the partials in the list are loaded it resolves the promise
     _loadPartials(partials, promise) {
         var self = this;
-        var promises = {};
         var promisesResolved = 0;
 
         partials.forEach((value) => {
 
             // try to make sure we do not load the same partial multiple times if not necessary
-            if (!promises[value] && !self.partials[value]) {
-                promises[value] = $.get( self._templateUrl(value) );
+            if (!self.partialPromises[value] && !self.partials[value]) {
 
-                promises[value].then((template) => {
+                self.partialPromises[value] = $.get( self._templateUrl(value) );
+                
+                self.partialPromises[value].then((template) => {
 
                     self.partials[value] = {
                         checked: false,
@@ -188,10 +191,23 @@ export default {
 
                     promisesResolved++;
 
+                    // this means we have loaded all the partials we needed, so resolve the promise we passed in
                     if (promisesResolved === partials.size) {
                         promise.resolve();
                     }
                 });
+
+            }
+            else {
+
+                // even if found that partial in our list, we "resolved it"
+                promisesResolved++;
+
+                // if we are here and we are done loading these partials, resolve the initial promise we passed in
+                if (promisesResolved === partials.size) {
+                    promise.resolve();
+                }
+                      
             }
         });
 

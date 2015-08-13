@@ -243,6 +243,10 @@ export default {
 
             } else {
 
+                // we find out how many items we have to get
+                var size = dataToGet.size;
+                var count = 0;
+
                 // otherwise, go through the data we found through the recursive search
                 dataToGet.forEach((value) => {
 
@@ -255,18 +259,28 @@ export default {
 
                         self.data = self._replaceUrlWithData(self.data, self.options.dataKey, value, data);
 
-                        dataToGet = new Set();
+                        // we remove the item we need and count up our each statement
+                        dataToGet.delete(value); 
+                        count++;                     
 
                         // once we have clean data, we rerun the search and create a new dataToGet set
                         // then if there is stuff to get, we get it. Otherwise, resolve, as we are done
                         self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
 
-                        if (dataToGet.size) {
-                            recursiveGet();
-                        }
-                        else {
+                        // if we went through the 2nd recursive search and there was nothing, it means we are done
+                        // so then resolve our full data
+                        if (dataToGet.size === 0) {
                             fullDataReady.resolve();
+                        } else {
+
+                            // if there are still items to get, that's great, we added to the list. But let's
+                            // go through the original list first before we go recursive 
+                            if (size === count) {
+                                recursiveGet();
+                            }
+
                         }
+
                     });
 
                 });

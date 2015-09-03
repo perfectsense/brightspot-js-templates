@@ -243,27 +243,20 @@ export default {
             self.data = data;
 
             // go through the data and pull out and JSON we need to retrieve and make a set of values
-            self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
+            dataToGet = self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
 
             // go through the data set, ajax in the actual JSON and refull
-            recursiveGet();
+            recursiveGet(dataToGet);
 
         });
 
-        function recursiveGet() {
+        function recursiveGet(dataToGet) {
 
-            // if there is nothing left, we are done
-            if(dataToGet.size === 0) {
-
-                fullDataReady.resolve();
-
-            } else {
-
+        
                 // we find out how many items we have to get
                 var size = dataToGet.size;
-                var count = 0;
 
-                // otherwise, go through the data we found through the recursive search
+                // go through the data we found
                 dataToGet.forEach((value) => {
 
                     // get the JSON 
@@ -275,32 +268,28 @@ export default {
 
                         self.data = self._replaceUrlWithData(self.data, self.options.dataKey, value, data);
 
-                        // we remove the item we need and count up our each statement
+                        // we remove the item we just got out of our list
                         dataToGet.delete(value); 
-                        count++;                     
 
-                        // once we have clean data, we rerun the search and create a new dataToGet set
-                        // then if there is stuff to get, we get it. Otherwise, resolve, as we are done
-                        self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
-
-                        // if we went through the 2nd recursive search and there was nothing, it means we are done
-                        // so then resolve our full data
+                        // if this was the last one, and there is nothing to get....
                         if (dataToGet.size === 0) {
-                            fullDataReady.resolve();
-                        } else {
 
-                            // if there are still items to get, that's great, we added to the list. But let's
-                            // go through the original list first before we go recursive 
-                            if (size === count) {
-                                recursiveGet();
+                            // look through the "new" self.data and see if we now have any new _dataUrls
+                            var matchesLeft = self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
+
+                            // if we do, let's start this part over again and get those
+                            if (matchesLeft.size > 0) {
+                                recursiveGet(matchesLeft);
+                            } else {
+                                // if there are no left, we are finally done. Resolve
+                                fullDataReady.resolve();
                             }
-
                         }
 
                     });
 
                 });
-            }
+            
         }
 
         return fullDataReady;
@@ -313,34 +302,26 @@ export default {
     _replaceUrlWithData(theObject, theKey, value, replacementData) {
         var self = this;
 
-        function recursiveReplace(theObject) {
+        function replace(theObject) {
 
             for (var key in theObject) {
 
-                if (typeof theObject[key] == "object" && theObject[key] !== null) {
-
+                if (typeof theObject[key] === "object") {
                     if(theObject[key][theKey] === value) {
+
                         theObject[key] = replacementData;
+
                     } else {
 
-                        for (var deepKey in theObject[key]) {
+                        replace(theObject[key]);
 
-                            if(theObject[key][deepKey][theKey] === value) {
-                                theObject[key][deepKey] = replacementData;
-                            } else {
-                                recursiveReplace(theObject[key]);
-                            }
-
-                        }
                     }
-
                 }
-
             }
 
         }
 
-        recursiveReplace(theObject);
+        replace(theObject);
 
         return theObject;
 

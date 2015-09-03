@@ -252,43 +252,48 @@ export default {
 
         function recursiveGet(dataToGet) {
 
-        
-                // we find out how many items we have to get
-                var size = dataToGet.size;
+            // if we enter here and there is no data, maybe it was a super simple JSON with no dataURLs, we just resolve
+            if (dataToGet.size === 0) {
+                fullDataReady.resolve();
+                return;
+            }
 
-                // go through the data we found
-                dataToGet.forEach((value) => {
+            // we find out how many items we have to get
+            var size = dataToGet.size;
 
-                    // get the JSON 
-                    var getData = self._fetch(value);
+            // go through the data we found
+            dataToGet.forEach((value) => {
 
-                    // once we are done, we replace the _dataUrl entry in the JSON with the actual data to 
-                    // create a nice and pretty JSON object
-                    getData.done((data) => {
+                // get the JSON 
+                var getData = self._fetch(value);
 
-                        self.data = self._replaceUrlWithData(self.data, self.options.dataKey, value, data);
+                // once we are done, we replace the _dataUrl entry in the JSON with the actual data to 
+                // create a nice and pretty JSON object
+                getData.done((data) => {
 
-                        // we remove the item we just got out of our list
-                        dataToGet.delete(value); 
+                    self.data = self._replaceUrlWithData(self.data, self.options.dataKey, value, data);
 
-                        // if this was the last one, and there is nothing to get....
-                        if (dataToGet.size === 0) {
+                    // we remove the item we just got out of our list
+                    dataToGet.delete(value); 
 
-                            // look through the "new" self.data and see if we now have any new _dataUrls
-                            var matchesLeft = self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
+                    // if this was the last one, and there is nothing to get....
+                    if (dataToGet.size === 0) {
 
-                            // if we do, let's start this part over again and get those
-                            if (matchesLeft.size > 0) {
-                                recursiveGet(matchesLeft);
-                            } else {
-                                // if there are no left, we are finally done. Resolve
-                                fullDataReady.resolve();
-                            }
+                        // look through the "new" self.data and see if we now have any new _dataUrls
+                        var matchesLeft = self._recursiveSearch(self.data, self.options.dataKey, dataToGet);
+
+                        // if we do, let's start this part over again and get those
+                        if (matchesLeft.size > 0) {
+                            recursiveGet(matchesLeft);
+                        } else {
+                            // if there are no left, we are finally done. Resolve
+                            fullDataReady.resolve();
                         }
-
-                    });
+                    }
 
                 });
+
+            });
             
         }
 

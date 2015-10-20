@@ -411,6 +411,9 @@ export default {
         var self = this;
 
         Handlebars.registerHelper('render', function(object, context) {
+            if (typeof object !== 'object') {
+                return object.toString();
+            }
 
             // the hash contains the extra data that we can pass onto the renderer
             // usually we just add an extra class, but this allows us to add any sort of key/value pair for use

@@ -41,6 +41,7 @@ export default {
         self.handlebarsReady = $.Deferred();
 
         self.handlebarsReady.done(() => {
+            self._convertObjectsToTemplates();
             self._render();
         });
 
@@ -410,6 +411,9 @@ export default {
         var self = this;
 
         Handlebars.registerHelper('render', function(object, context) {
+            if (typeof object !== 'object') {
+                return object.toString();
+            }
 
             // the hash contains the extra data that we can pass onto the renderer
             // usually we just add an extra class, but this allows us to add any sort of key/value pair for use
@@ -435,6 +439,45 @@ export default {
                
         });
 
+    },
+
+    _convertObjectsToTemplates() {
+        var self = this;
+
+        class Template {
+            toHTML() {
+                var partial = self.partials[this._template].content;
+                var fn = Handlebars.compile(partial);
+
+                return fn(this);
+            }
+        }
+
+        function convert(data) {
+            if (typeof data === 'object') {
+                if (Array.isArray(data)) {
+                    return data.map(item => convert(item));
+
+                } else {
+                    var copy = { };
+
+                    Object.keys(data).forEach(key => {
+                        copy[key] = convert(data[key]);
+                    });
+
+                    if (data._template) {
+                        return $.extend(new Template(), copy);
+
+                    } else {
+                        return copy;
+                    }
+                }
+            }
+
+            return data;
+        }
+
+        self.data = convert(self.data);
     },
 
     // helper function to render the Handlebar template with our full set of data

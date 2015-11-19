@@ -8,7 +8,7 @@ export default {
         partialsRegexp: /\{\{>\s(?!\(lookup)+([^\s]+)[\S\s]+?\}\}/g,
         templateKey: '_template',
         dataKey: '_dataUrl',
-        templatePath: '/render/',
+        templatePath: '/',
         templateExtension: '.hbs',
         templateName: ''
     },
